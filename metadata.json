@@ -1,0 +1,6 @@
+{
+  "name": "MoveAbroad SG",
+  "description": "Relocation-assimilation web app for Singapore: curated live-like-a-local guides, interest groups with RSVP, and community onboarding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
