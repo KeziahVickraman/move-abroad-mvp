@@ -6,31 +6,34 @@ const PAGE_ID = "team-page";
 
 export default function DisqusThread() {
   useEffect(() => {
-    try {
-      window.disqus_config = function () {
-        this.page.url = PAGE_URL;
-        this.page.identifier = PAGE_ID;
-      };
+    // Only attempt loading if in a real browser environment
+    if (typeof window === "undefined" || !document) return;
 
-      if (window.DISQUS) {
-        try {
-          window.DISQUS.reset({ reload: true, config: window.disqus_config });
-        } catch {
-          // ignore reset exception
-        }
-      } else if (!document.getElementById("disqus-embed")) {
-        const s = document.createElement("script");
-        s.id = "disqus-embed";
-        s.src = "https://" + SHORTNAME + ".disqus.com/embed.js";
-        s.setAttribute("data-timestamp", String(Date.now()));
-        s.async = true;
-        s.onerror = (e) => {
-          console.warn("Disqus embed script notice:", e);
-        };
-        (document.head || document.body).appendChild(s);
+    window.disqus_config = function () {
+      this.page.url = PAGE_URL;
+      this.page.identifier = PAGE_ID;
+    };
+
+    if (window.DISQUS) {
+      try {
+        window.DISQUS.reset({ reload: true, config: window.disqus_config });
+      } catch {
+        // ignore reset errors
       }
-    } catch (err) {
-      console.warn("Disqus initialization notice:", err);
+    } else if (!document.getElementById("disqus-embed")) {
+      const s = document.createElement("script");
+      s.id = "disqus-embed";
+      s.src = `https://${SHORTNAME}.disqus.com/embed.js`;
+      s.setAttribute("data-timestamp", String(Date.now()));
+      s.async = true;
+      s.crossOrigin = "anonymous";
+      s.onerror = (e) => {
+        // Suppress uncaught bubbling error in iframe
+        if (e && typeof e.stopPropagation === "function") {
+          e.stopPropagation();
+        }
+      };
+      (document.head || document.body).appendChild(s);
     }
   }, []);
 
