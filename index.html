@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MoveAbroad SG — Expat & Student Assimilation Hub</title>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        if (msg === 'Script error.' || (url && url.indexOf('disqus') !== -1)) {
+          return true;
+        }
+      };
+      window.addEventListener('error', function(e) {
+        if (e.message === 'Script error.' || (e.filename && e.filename.indexOf('disqus') !== -1)) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }, true);
+    </script>
     <meta name="description" content="Native web app helping people relocating to Singapore assimilate — curated culture content and interest groups with RSVP." />
     <meta property="og:title" content="MoveAbroad SG — Expat & Student Assimilation Hub" />
     <meta property="og:description" content="Curated live-like-a-local guides, verified community interest groups, and instant RSVPs." />
